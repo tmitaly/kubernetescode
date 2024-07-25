@@ -8,6 +8,7 @@ pipeline {
     }
 
     
+    
     stages {
         stage('Build and Test Image') {
             steps {
