@@ -24,7 +24,7 @@ pipeline {
                     }
 
                     // Push image with build number and latest tag
-                    docker.withRegistry('https://registry.hub.docker.com', 'docker') {
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockertmitaly') {
                         app.push("${env.BUILD_NUMBER}")
                         app.push("latest")
                     }
@@ -56,7 +56,7 @@ pipeline {
             steps {
                 script {
                     // Login to Docker Hub
-                    withCredentials([usernamePassword(credentialsId: 'docker', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                    withCredentials([usernamePassword(credentialsId: 'dockertmitaly', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
                         sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
                     }
                     
