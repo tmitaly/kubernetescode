@@ -6,6 +6,7 @@ pipeline {
         TMAS_API_KEY = credentials('TMAS_API_KEY')
         TMAS_HOME = "$WORKSPACE/tmas"
     }
+
     
     stages {
         stage('Build and Test Image') {
