@@ -11,6 +11,12 @@ pipeline {
             steps {
                 script {
                     def app
+                    
+                    // Login to Docker Hub
+                    withCredentials([usernamePassword(credentialsId: 'dockertmitaly', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                        sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
+                    }
+                    sh 'docker image prune -a -f'
 
                     // Clone repository
                     checkout scm
@@ -56,18 +62,12 @@ pipeline {
         stage('TMAS Scan') {
             steps {
                 script {
-                    // Login to Docker Hub
-                    withCredentials([usernamePassword(credentialsId: 'dockertmitaly', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
-                        sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
-                    }
-
                     // Install TMAS
                     sh "mkdir -p $TMAS_HOME"
                     sh "curl -L https://cli.artifactscan.cloudone.trendmicro.com/tmas-cli/latest/tmas-cli_Linux_x86_64.tar.gz | tar xz -C $TMAS_HOME"
 
                     // Verify Docker image configuration
                     sh 'docker images'
-                    sh 'docker image prune -a -f'
                     sh 'docker inspect trenditalydocker/webpage:latest'
 
                     // Execute the tmas scan command with the obtained digest
