@@ -10,6 +10,18 @@ pipeline {
 
     
     stages {
+                stage('Setup AWS CLI') {
+            steps {
+                script {
+                    // Configura AWS CLI
+                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: aws-credentials-id]]) {
+                        sh 'aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID'
+                        sh 'aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY'
+                        sh 'aws configure set default.region eu-west-2'
+                    }
+                }
+            }
+        }
         stage('Build and Test Image') {
             steps {
                 script {
