@@ -6,6 +6,7 @@ pipeline {
         TMAS_HOME = "$WORKSPACE/tmas"
     }
 
+    
     stages {
         stage('Build and Test Image') {
             steps {
