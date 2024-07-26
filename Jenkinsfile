@@ -4,7 +4,7 @@ pipeline {
     environment {
         TMAS_API_KEY = credentials('TMAS_API_KEY')
         TMAS_HOME = "$WORKSPACE/tmas"
-        AWS_CREDENTIALS = credentials('aws-credentials-id') // Aggiungi l'ID delle credenziali AWS
+        AWS_CREDENTIALS_ID = credentials('aws-credentials-id')
 
     }
 
@@ -14,7 +14,7 @@ pipeline {
             steps {
                 script {
                     // Configura AWS CLI
-                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: aws-credentials-id]]) {
+                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: AWS_CREDENTIALS_ID]]) {
                         sh 'aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID'
                         sh 'aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY'
                         sh 'aws configure set default.region eu-west-2'
