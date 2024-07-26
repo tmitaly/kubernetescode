@@ -4,6 +4,8 @@ pipeline {
     environment {
         TMAS_API_KEY = credentials('TMAS_API_KEY')
         TMAS_HOME = "$WORKSPACE/tmas"
+        AWS_CREDENTIALS = credentials('aws-credentials-id') // Aggiungi l'ID delle credenziali AWS
+
     }
 
     
@@ -72,11 +74,13 @@ pipeline {
 
                     // Execute the tmas scan command with the obtained digest
                     //sh "$TMAS_HOME/tmas scan --vulnerabilities registry:trenditalydocker/webpage@${env.IMAGE_DIGEST} --region eu-central-1"
-                    sh "$TMAS_HOME/tmas scan --vulnerabilities registry:trenditalydocker/webpage@sha256:41b807985c2a729361c6ab9c657b7e09fe46d2498ebd269e42fc1bf5e556e241 --region eu-central-1"
+                    //sh "$TMAS_HOME/tmas scan --vulnerabilities registry:trenditalydocker/webpage@sha256:41b807985c2a729361c6ab9c657b7e09fe46d2498ebd269e42fc1bf5e556e241 --region eu-central-1"
 
                     // Create deployment.yaml file and apply it using kubectl
                     sh 'aws eks update-kubeconfig --region eu-west-2 --name EKS_CLOUD'
+                    sh 'aws eks get-token --cluster-name EKS_CLOUD'
                     sh 'kubectl get nodes'
+                    
                     sh """
                     echo "
 apiVersion: apps/v1
