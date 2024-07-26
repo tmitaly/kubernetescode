@@ -34,8 +34,10 @@ pipeline {
         stage('Get Image Digest') {
             steps {
                 script {
-                    // Pull the latest image to get its digest
+                    // Ensure the latest image is pulled from the registry
                     sh 'docker pull trenditalydocker/webpage:latest'
+                    
+                    // Get the image digest
                     def digest = sh(
                         script: "docker inspect --format='{{index .RepoDigests 0}}' trenditalydocker/webpage:latest",
                         returnStdout: true
@@ -62,6 +64,10 @@ pipeline {
                     // Install TMAS
                     sh "mkdir -p $TMAS_HOME"
                     sh "curl -L https://cli.artifactscan.cloudone.trendmicro.com/tmas-cli/latest/tmas-cli_Linux_x86_64.tar.gz | tar xz -C $TMAS_HOME"
+
+                    // Verify Docker image configuration
+                    sh 'docker images'
+                    sh 'docker inspect trenditalydocker/webpage:latest'
 
                     // Execute the tmas scan command with the obtained digest
                     sh "$TMAS_HOME/tmas scan --vulnerabilities registry:trenditalydocker/webpage@${env.IMAGE_DIGEST} --region eu-central-1"
