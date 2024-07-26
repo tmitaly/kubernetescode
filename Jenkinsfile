@@ -22,17 +22,17 @@ pipeline {
                     checkout scm
 
                     // Build image
-                    app = docker.build("trenditalydocker/webpage")
+                    //app = docker.build("trenditalydocker/webpage")
 
                     // Test image
-                    app.inside {
-                        sh 'echo "Tests passed"'
-                    }
+                    //app.inside {
+                        //sh 'echo "Tests passed"'
+                    //}
 
                     // Push image with latest tag
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockertmitaly') {
-                        app.push("latest")
-                    }
+                    //docker.withRegistry('https://registry.hub.docker.com', 'dockertmitaly') {
+                        //app.push("latest")
+                    //}
                 }
             }
         }
@@ -71,7 +71,46 @@ pipeline {
                     sh 'docker inspect trenditalydocker/webpage:latest'
 
                     // Execute the tmas scan command with the obtained digest
-                    sh "$TMAS_HOME/tmas scan --vulnerabilities registry:trenditalydocker/webpage@${env.IMAGE_DIGEST} --region eu-central-1"
+                    //sh "$TMAS_HOME/tmas scan --vulnerabilities registry:trenditalydocker/webpage@${env.IMAGE_DIGEST} --region eu-central-1"
+                    sh "$TMAS_HOME/tmas scan --vulnerabilities registry:trenditalydocker/webpage@sha256:41b807985c2a729361c6ab9c657b7e09fe46d2498ebd269e42fc1bf5e556e241 --region eu-central-1"
+
+                    // Create deployment.yaml file and apply it using kubectl
+                    sh """
+                    echo "
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flaskdemo
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: flaskdemo
+  template:
+    metadata:
+      labels:
+        app: flaskdemo
+    spec:
+      containers:
+      - name: flaskdemo
+        image: trenditalydocker/sha256:41b807985c2a729361c6ab9c657b7e09fe46d2498ebd269e42fc1bf5e556e241
+        ports:
+        - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lb-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 5000
+  selector:
+    app: flaskdemo
+" > deployment.yaml && kubectl apply -f deployment.yaml
+                    """
+
 
                     // Logout from Docker Hub
                     sh 'docker logout'
@@ -80,11 +119,11 @@ pipeline {
         }
     }
 
-    post {
-        success {
+    //post {
+        //success {
             // Trigger ManifestUpdate job upon success of both pipelines
-            echo "Triggering updatemanifest job"
-            build job: 'updatemanifest', parameters: [string(name: 'DOCKERTAG', value: 'latest')]
-        }
-    }
+            //echo "Triggering updatemanifest job"
+            //build job: 'updatemanifest', parameters: [string(name: 'DOCKERTAG', value: 'latest')]
+        //}
+    //}
 }
