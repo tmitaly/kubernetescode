@@ -76,6 +76,7 @@ pipeline {
 
                     // Create deployment.yaml file and apply it using kubectl
                     sh 'aws eks update-kubeconfig --region eu-west-2 --name EKS_CLOUD'
+                    sh 'kubectl get nodes'
                     sh """
                     echo "
 apiVersion: apps/v1
