@@ -64,7 +64,6 @@ pipeline {
                     sh "curl -L https://cli.artifactscan.cloudone.trendmicro.com/tmas-cli/latest/tmas-cli_Linux_x86_64.tar.gz | tar xz -C $TMAS_HOME"
 
                     // Execute the tmas scan command with the obtained digest
-                    sh 'cat ~/.docker/config.json'
                     sh "$TMAS_HOME/tmas scan --vulnerabilities registry:trenditalydocker/webpage@${env.IMAGE_DIGEST} --region eu-central-1"
 
                     // Logout from Docker Hub
