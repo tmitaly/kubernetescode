@@ -75,6 +75,7 @@ pipeline {
                     sh "$TMAS_HOME/tmas scan --vulnerabilities registry:trenditalydocker/webpage@sha256:41b807985c2a729361c6ab9c657b7e09fe46d2498ebd269e42fc1bf5e556e241 --region eu-central-1"
 
                     // Create deployment.yaml file and apply it using kubectl
+                    sh 'aws eks update-kubeconfig --region eu-west-2 --name EKS_CLOUD'
                     sh """
                     echo "
 apiVersion: apps/v1
