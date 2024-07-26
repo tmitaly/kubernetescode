@@ -67,7 +67,7 @@ pipeline {
 
                     // Verify Docker image configuration
                     sh 'docker images'
-                    sh 'docker image prune'
+                    sh 'docker image prune -a -f'
                     sh 'docker inspect trenditalydocker/webpage:latest'
 
                     // Execute the tmas scan command with the obtained digest
