@@ -1,6 +1,7 @@
 pipeline {
     agent any
 
+    
     environment {
         TMAS_API_KEY = credentials('TMAS_API_KEY')
         TMAS_HOME = "$WORKSPACE/tmas"
