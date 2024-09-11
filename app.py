@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
     display: inline-block;
 "><div class="css-1gk8rj2 ebasi3p0" style="
     font-size: 24px; text-align: center;
-">Welcome! AWS Community days 2024</div>         
+">Welcome! AWS Community days 2024 CVE</div>         
 
 
             <h2 th:text="${error}"></h2> </div>
