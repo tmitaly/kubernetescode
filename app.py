@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <h2 th:text="${error}"></h2> </div>
                
 </div></div></div><div class="css-1baulvz ebasi3p0"></div></div></div></div></div>
-<footer>Copyright © 1999-2024 Trend Micro Incorporated. All rights reserved.<span><a href="https://www.trendmicro.com/" target="_blank" rel="noopener noreferrer">Trend Micro</a></span><span><a href="https://www.trendmicro.com/en_us/about/trust-center/privacy.html" target="_blank" rel="noopener noreferrer">Privacy</a></span><span><a href="http://us.trendmicro.com/us/about/contact/index.html" target="_blank" rel="noopener noreferrer">Contact Us</a></span><span><a href="https://success.trendmicro.com/business-support" target="_blank" rel="noopener noreferrer">Help</a></span></footer></div></div>
+<footer>Copyright © 1999-2025 Trend Micro Incorporated. All rights reserved.<span><a href="https://www.trendmicro.com/" target="_blank" rel="noopener noreferrer">Trend Micro</a></span><span><a href="https://www.trendmicro.com/en_us/about/trust-center/privacy.html" target="_blank" rel="noopener noreferrer">Privacy</a></span><span><a href="http://us.trendmicro.com/us/about/contact/index.html" target="_blank" rel="noopener noreferrer">Contact Us</a></span><span><a href="https://success.trendmicro.com/business-support" target="_blank" rel="noopener noreferrer">Help</a></span></footer></div></div>
 </body></html>
     """
     return html_code
